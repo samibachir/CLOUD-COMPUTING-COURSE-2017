@@ -20,7 +20,7 @@ class MyListener(StreamListener):
  
     def on_data(self, data):
         try:
-            with open('tennis.json', 'a') as f:
+            with open('facebook.json', 'a') as f:
                 f.write(data)
                 return True
         except BaseException as e:
@@ -32,9 +32,8 @@ class MyListener(StreamListener):
         return True
  
 twitter_stream = Stream(auth, MyListener())
+twitter_stream.filter(track=['facebook'])
 
-#getting tweets talking about tennis and collecting them in a json file tennis.json
-twitter_stream.filter(track=['tennis'])
 
 import re
  
@@ -71,13 +70,11 @@ def preprocess(s, lowercase=False):
     return tokens
 
 
-
 import json 
 import tweepy
 
-json_file = open('tennis.json','r')
+json_file = open('test.json','r')
 
-#test to see if the json file was well created
 for line in json_file:
  tweet = json.loads(line)
  print (tweet['text'])
@@ -91,9 +88,10 @@ import string
 punctuation = list(string.punctuation)
 stop = stopwords.words('english') + punctuation + ['rt', 'via', 'RT']
 
+
 from collections import Counter
 import operator 
-name = 'tennis.json'
+name = 'facebook.json'
 
 with open(name, 'r') as f:
     count_all = Counter()
@@ -104,6 +102,7 @@ with open(name, 'r') as f:
         count_all.update(terms_hash)
 # Print the first 10 most frequent words
 print(count_all.most_common(15))
+
 
 
 with open(name, 'r') as f:
@@ -117,7 +116,7 @@ with open(name, 'r') as f:
         print ('%s : %s' % (word, index))
 
 
-#treating the terms # and @ whose meanings are special in twitter
+
 terms_hash = [term for term in preprocess(tweet['text']) 
               if term.startswith('#')]
 
@@ -138,16 +137,14 @@ print(count_all.most_common(15))
 
 
 
-#
-#  print a histogram of the most common words
-#
-
 %matplotlib inline
 import matplotlib as mpl
 mpl.rcParams['figure.figsize'] = (15,10)
 import matplotlib.pyplot as plt
 
 sorted_x, sorted_y = zip(*count_all.most_common(15))
+#print(sorted_x, sorted_y)
+
 plt.bar(range(len(sorted_x)), sorted_y, width=0.75, align='center');
 plt.xticks(range(len(sorted_x)), sorted_x, rotation=80);
 plt.axis('tight'); 
