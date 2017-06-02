@@ -1,0 +1,5 @@
+**Lab3 Description**
+
+Instead of using the key words "Artificial Intelligence" we have been using the word "Facebook" to get the tweets linked to this key words.
+
+Then we have treated this results in order to get the most common words in these tweets and an histogram of their distributions.
